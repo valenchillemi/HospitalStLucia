@@ -12,8 +12,8 @@ El [extracto del Console Output](jenkins-vm-8-approval-extract.log) conserva el 
 
 Una segunda candidata `ci-9-bfed65942a82` quedó validada en Green mientras Blue seguía activo. Jenkins registró `CAMBIO_SOLICITADO` a las `22:17:58Z`. El usuario rechazó la solicitud y Jenkins dejó `CAMBIO_NO_APROBADO` a las `22:18:33Z`. La etapa **Cambiar tráfico y observar** se omitió, el Console Output indicó `Rejected by Clínica Santa Lucía` y terminó `ABORTED` tras 53 s. El [extracto del build #9](jenkins-vm-9-rejection-extract.log) conserva estas líneas. Una consulta externa por el túnel después del rechazo devolvió `version=ci-8-bfed65942a82`, `commitSha=bfed65942a82` y `deploymentColor=blue`: la candidata Green `ci-9` no recibió el tráfico público. La lectura fue compartida como salida de PowerShell; no se adjuntó un archivo de monitor continuo para esa ventana.
 
-## Control aún por ensayar
+## Vencimiento del build #10
 
-- **Vencimiento:** dejar transcurrir los 10 minutos del `input` y comprobar el mismo resultado.
+La candidata `ci-10-bfed65942a82` quedó a la espera de autorización para cambiar de Blue a Green. Jenkins registró `CAMBIO_SOLICITADO` a las `22:20:56Z`; sin respuesta humana, canceló el paso `input` por timeout y registró `CAMBIO_NO_APROBADO` a las `22:30:57Z`. Omitió **Cambiar tráfico y observar**, informó `Timeout has been exceeded` y terminó `ABORTED` después de 618 s. El [extracto del build #10](jenkins-vm-10-timeout-extract.log) conserva las líneas de la decisión y el resultado. La consulta externa posterior devolvió `version=ci-8-bfed65942a82`, `commitSha=bfed65942a82` y `deploymentColor=blue`: la candidata Green no recibió tráfico público.
 
-La corrida de vencimiento debe conservar número de build, commit, líneas `CAMBIO_SOLICITADO` y `CAMBIO_NO_APROBADO`, estado final de Jenkins y `/version` público antes y después. Estas verificaciones no se sustituyen por el build #8 aprobado.
+Las lecturas externas tras #9 y #10 fueron compartidas como salidas de PowerShell. No se adjuntó monitor continuo para estas ventanas; la evidencia prueba el color público después de cada decisión, sin estimar una tasa de error HTTP externa.

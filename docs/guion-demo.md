@@ -19,7 +19,7 @@ Este guion reúne las acciones mínimas para presentar la PoC en la VM. La prepa
 
 **Escenario C.** Mostrar el Console Output y CSV del build VM #3. Explicar que la candidata pasa el smoke test, recibe tráfico, pero Turnos empieza a responder 503. Jenkins registra tres fallos consecutivos y ejecuta `Rollback OK: blue -> green`. La primera muestra correcta después del fallo inducido llegó 3,907 s tras la primera muestra fallida; el límite definido era 30 s. El `FAILURE` final indica rechazo de esa release, no pérdida permanente del servicio.
 
-**Gestión del cambio.** El [build VM #9](evidence/approval-gate-vm-2026-10-26/README.md) documenta un rechazo: `CAMBIO_NO_APROBADO`, etapa de switch omitida y `ABORTED`; `/version` externo conservó Blue `ci-8`. Explicar que se espera el mismo comportamiento si transcurren 10 minutos sin respuesta; ese ensayo sigue pendiente.
+**Gestión del cambio.** Los [builds VM #9 y #10](evidence/approval-gate-vm-2026-10-26/README.md) documentan rechazo y vencimiento: ambos registraron `CAMBIO_NO_APROBADO`, omitieron el switch y terminaron `ABORTED`; `/version` externo conservó Blue `ci-8`. El #10 esperó los 10 minutos sin respuesta y duró 618 s.
 
 ## Qué aclarar al mostrar métricas
 

@@ -44,7 +44,7 @@ Durante las corridas documentadas de la VM, el acceso se realizó mediante túne
 
 El `Jenkinsfile` ejecuta: obtención del commit; instalación y pruebas PHP; conexión a la red del laboratorio; construcción de la candidata; despliegue en el color inactivo; smoke test funcional; **autorización manual**; cambio de tráfico; observación de la URL pública. El nuevo gate muestra versión, commit y color candidato, espera hasta 10 minutos la respuesta del ID `clinica-santa-lucia` y registra usuario y fecha UTC al aprobar. Si se rechaza o vence el plazo, no ejecuta el switch. Antes de promover vuelve a comprobar el color activo y el smoke test. Registra `PIPELINE_DURATION_SECONDS` al finalizar. El valor de `/version` permite vincular cada observación con el build y el commit.
 
-La autorización se agregó **después** de las corridas cuantificadas en las secciones 5 y 6; sus cifras no prueban el gate. En los nuevos builds de EC2, [#8 aprobó](evidence/approval-gate-vm-2026-10-26/README.md) `ci-8-bfed65942a82` con el ID efectivo `Clinica-Santa-Lucia` a las `22:16:22Z` y solo entonces cambió Green → Blue. El build #9 rechazó `ci-9`, omitió el switch y terminó `ABORTED`; `/version` externo seguía sirviendo Blue `ci-8`. **El timeout aún no se ensayó.** Ver la [guía de autorización](approval-gate.md).
+La autorización se agregó **después** de las corridas cuantificadas en las secciones 5 y 6; sus cifras no prueban el gate. En los nuevos builds de EC2, [#8 aprobó](evidence/approval-gate-vm-2026-10-26/README.md) `ci-8-bfed65942a82` con el ID efectivo `Clinica-Santa-Lucia` a las `22:16:22Z` y solo entonces cambió Green → Blue. El build #9 rechazó `ci-9`; el #10 dejó vencer los 10 minutos sin respuesta. Ambos omitieron el switch y terminaron `ABORTED`. Después de cada uno, `/version` externo seguía sirviendo Blue `ci-8`. Ver la [guía de autorización](approval-gate.md).
 
 | Escenario | Estímulo | Resultado esperado y observado |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ En el build #3, el tercer fallo de Jenkins quedó registrado a las `01:54:46.630
 | Objetivo de la segunda entrega | Evaluación |
 | --- | --- |
 | Pipeline de build, pruebas, despliegue inactivo, validación, switch y observación | Implementado en `Jenkinsfile` y ejecutado localmente y en EC2. |
-| Autorización antes de cambiar tráfico | Incorporada después de las corridas históricas; #8 confirmó aprobación y switch posterior; #9 confirmó rechazo sin switch y versión pública anterior. Timeout por ensayar. |
+| Autorización antes de cambiar tráfico | Incorporada después de las corridas históricas; #8 confirmó aprobación y switch posterior; #9 confirmó rechazo y #10 vencimiento, ambos sin switch y con la versión pública anterior. |
 | Identificar Active, Release Candidate y LKG | Versión y commit visibles; color activo y objetivo en logs; rollback recibe el color estable previo. |
 | Demostrar los escenarios A, B y C | Tres repeticiones por escenario en local; en VM hay CSV de los tres escenarios, con resultado y duración confirmados para #2, #3, #5, #6 y #7. |
 | Medir HTTP, MTTD, recuperación, duración y versión | CSV externos, resúmenes, logs Jenkins y `/version` conservados. |
@@ -128,6 +128,6 @@ Para cerrar la entrega grupal faltan: validar con la clínica las hipótesis de 
 - Protocolo de medición: `docs/monitoring.md` y `scripts/availability_monitor.py`.
 - Laboratorio local: `docs/evidence/blue-green-local-2026-10-25/README.md`, CSV y nueve logs Jenkins.
 - VM: `docs/vm-demo.md` y `docs/evidence/blue-green-vm-2026-10-25/README.md`, con cinco CSV y logs de #2 y #6.
-- Autorización posterior: `docs/approval-gate.md` y `docs/evidence/approval-gate-vm-2026-10-26/README.md`, con extractos de Jenkins #8 y #9 y lectura externa tras el rechazo.
+- Autorización posterior: `docs/approval-gate.md` y `docs/evidence/approval-gate-vm-2026-10-26/README.md`, con extractos de Jenkins #8, #9 y #10 y lecturas externas tras rechazo y vencimiento.
 - Presupuesto: `docs/plan-costos-consultoria.md`, con honorarios hipotéticos y modelo AWS incremental.
 - Seguimiento: `docs/agents/issue-tracker.md`, captura `docs/evidence/kanban-2026-10-25.png` y tablero Trello del Grupo 03.

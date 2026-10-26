@@ -1,0 +1,8 @@
+CAMBIO_SOLICITADO build=10 version=ci-10-bfed65942a82 commit=bfed65942a82 activo=blue candidato=green fecha_utc=2026-10-26T22:20:56Z
+Timeout set to expire in 10 min
+Cancelling nested steps due to timeout
+CAMBIO_NO_APROBADO build=10 version=ci-10-bfed65942a82 commit=bfed65942a82 fecha_utc=2026-10-26T22:30:57Z motivo=rechazo_plazo_o_error; permanece=blue
+Stage "Cambiar tráfico y observar" skipped due to earlier failure(s)
+PIPELINE_DURATION_SECONDS=618
+Timeout has been exceeded
+Finished: ABORTED
