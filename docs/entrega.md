@@ -10,6 +10,7 @@
 | Cuenta de demostración | [Consulta opcional](costos-aws.md) | Gasto y créditos de la cuenta Free; no determina el precio para la clínica. |
 | Reproducción técnica | [Guía VM](vm-demo.md), [guía de despliegue](../deploy/README.md) y [monitoreo](monitoring.md) | Configuración, escenarios y comandos. |
 | Autorización de promoción | [Guía del gate](approval-gate.md) | Aprobador permitido, plazo, auditoría y ensayos de aprobación, rechazo y vencimiento. |
+| Evidencia nueva de autorización | [Jenkins VM #8 y #9](evidence/approval-gate-vm-2026-10-26/README.md) | Aprobación antes del switch y rechazo que omite el cambio; timeout por ensayar. |
 | Presentación oral | [Guion de demo](guion-demo.md) | Secuencia sugerida, cifras que mostrar y aclaraciones metodológicas. |
 | Trabajo propuesto para integrar | [PR #4](https://github.com/icamporroDEV/HospitalStLucia/pull/4) | Pipeline, laboratorio y documentación; requiere revisión del propietario. |
 | Descripción del PR | [Texto listo para pegar](pr-description.md) | Resumen, evidencia y alcance del cambio. |
@@ -17,7 +18,7 @@
 ## Datos que debe confirmar el grupo antes de entregar
 
 - Datos de carga, región y arquitectura AWS de la clínica para convertir el modelo incremental en una cotización definitiva.
-- Ensayar el gate nuevo en Jenkins local y EC2; guardar Console Output y `/version` antes y después de cada decisión.
+- Completar el ensayo de timeout del gate; si se exige paridad, repetir los casos en Jenkins local.
 - Estado final del Gantt y actualización de las tarjetas Trello después de la revisión grupal.
 - Revisión de nombres, fecha de entrega, formato exigido por la cátedra y conclusiones firmadas por los cuatro integrantes.
 

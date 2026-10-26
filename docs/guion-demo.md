@@ -13,13 +13,13 @@ Este guion reúne las acciones mínimas para presentar la PoC en la VM. La prepa
 
 **Arquitectura.** Mostrar que Blue y Green son dos versiones de la aplicación, Nginx es el acceso público y Jenkins publica en el color inactivo. Explicar que el commit, la hora de construcción y el color aparecen en `/version`; `/api/turnos` comprueba la función visible al usuario.
 
-**Escenario A.** Ejecutar `happy` si se dispone del tiempo de demo. Mostrar que Jenkins prueba, construye, valida la candidata y queda esperando la [autorización manual](approval-gate.md). El usuario permitido revisa la versión y aprueba; el Console Output registra ID y fecha UTC antes del switch. Comparar color y versión de `/version` antes y después. El ensayo histórico #7 tuvo 86/86 peticiones HTTP exitosas, pero ocurrió antes de agregar el gate: no debe presentarse como evidencia de aprobación.
+**Escenario A.** Ejecutar `happy` si se dispone del tiempo de demo. Mostrar que Jenkins prueba, construye, valida la candidata y queda esperando la [autorización manual](approval-gate.md). El usuario permitido revisa la versión y aprueba; el Console Output registra ID y fecha UTC antes del switch. Comparar color y versión de `/version` antes y después. El [build VM #8](evidence/approval-gate-vm-2026-10-26/README.md) ya verificó el orden de aprobación y switch; el ensayo histórico #7 tuvo 86/86 peticiones HTTP exitosas, pero ocurrió antes de agregar el gate.
 
 **Escenario B.** Mostrar el [extracto del build VM #2](evidence/blue-green-vm-2026-10-25/jenkins-vm-2-extract.log) o ejecutar `pre-test`. La falla de PHPUnit es deliberada: el pipeline termina `FAILURE` antes del build y del despliegue; el color público debe mantenerse. En VM duró 2 s y el monitor registró 0/30 errores HTTP. Las tres repeticiones locales tuvieron 0/494 errores HTTP durante sus ventanas de medición.
 
 **Escenario C.** Mostrar el Console Output y CSV del build VM #3. Explicar que la candidata pasa el smoke test, recibe tráfico, pero Turnos empieza a responder 503. Jenkins registra tres fallos consecutivos y ejecuta `Rollback OK: blue -> green`. La primera muestra correcta después del fallo inducido llegó 3,907 s tras la primera muestra fallida; el límite definido era 30 s. El `FAILURE` final indica rechazo de esa release, no pérdida permanente del servicio.
 
-**Gestión del cambio.** En una corrida nueva, elegir **Abortar** en el gate y verificar que `/version` público no cambie. Mostrar `CAMBIO_NO_APROBADO` y explicar que el mismo comportamiento se espera si transcurren 10 minutos sin respuesta. Conservar los nuevos Console Output como evidencia: los builds históricos no incluían esta pausa.
+**Gestión del cambio.** El [build VM #9](evidence/approval-gate-vm-2026-10-26/README.md) documenta un rechazo: `CAMBIO_NO_APROBADO`, etapa de switch omitida y `ABORTED`; `/version` externo conservó Blue `ci-8`. Explicar que se espera el mismo comportamiento si transcurren 10 minutos sin respuesta; ese ensayo sigue pendiente.
 
 ## Qué aclarar al mostrar métricas
 

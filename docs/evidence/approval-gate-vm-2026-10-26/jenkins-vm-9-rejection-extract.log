@@ -1,0 +1,8 @@
+CAMBIO_SOLICITADO build=9 version=ci-9-bfed65942a82 commit=bfed65942a82 activo=blue candidato=green fecha_utc=2026-10-26T22:17:58Z
+Timeout set to expire in 10 min
+¿Aprobar ci-9-bfed65942a82 (commit bfed65942a82) para cambiar de blue a green? Escenario: happy
+CAMBIO_NO_APROBADO build=9 version=ci-9-bfed65942a82 commit=bfed65942a82 fecha_utc=2026-10-26T22:18:33Z motivo=rechazo_plazo_o_error; permanece=blue
+Stage "Cambiar tráfico y observar" skipped due to earlier failure(s)
+PIPELINE_DURATION_SECONDS=53
+Rejected by Clínica Santa Lucía
+Finished: ABORTED

@@ -1,0 +1,15 @@
+Checking out Revision bfed65942a822258520a78bc87f75072e2fab8da (refs/remotes/origin/codex/jenkins-blue-green)
+OK (12 tests, 103 assertions)
+Activo: green; candidato: blue
+Smoke test OK: http://his-blue:8080 sirve la versión ci-8-bfed65942a82
+Deploy OK: hospital-st-lucia:ci-8-bfed65942a82 quedó validada en blue sin cambiar tráfico
+CAMBIO_SOLICITADO build=8 version=ci-8-bfed65942a82 commit=bfed65942a82 activo=green candidato=blue fecha_utc=2026-10-26T22:16:11Z
+Timeout set to expire in 10 min
+¿Aprobar ci-8-bfed65942a82 (commit bfed65942a82) para cambiar de green a blue? Escenario: happy
+Approved by Clínica Santa Lucía
+CAMBIO_APROBADO build=8 version=ci-8-bfed65942a82 commit=bfed65942a82 usuario=Clinica-Santa-Lucia fecha_utc=2026-10-26T22:16:22Z destino=blue
+Smoke test OK: http://his-blue:8080 sirve la versión ci-8-bfed65942a82
+Switch OK: green -> blue
+2026-10-26T22:16:44.398Z Observación OK: ci-8-bfed65942a82 permaneció disponible
+PIPELINE_DURATION_SECONDS=52
+Finished: SUCCESS

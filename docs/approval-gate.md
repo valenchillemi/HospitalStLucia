@@ -18,14 +18,14 @@ El plugin Pipeline: Input Step usa `submitter` para restringir quién puede apro
 
 `CAMBIO_SOLICITADO` deja constancia de la versión presentada antes de la pausa. La fuente de auditoría es el Console Output del build, que debe conservarse o exportarse junto con la evidencia del ensayo. El mensaje `CAMBIO_NO_APROBADO` agrupa rechazo, vencimiento y error; el motivo detallado se consulta en las líneas de Jenkins inmediatamente anteriores al fin del build.
 
-## Ensayo de aceptación pendiente
+## Ensayo de aceptación
 
-La implementación del gate debe verificarse en Jenkins local y en la VM; los builds históricos #2 a #7 de EC2 se ejecutaron **antes** de esta modificación y no prueban la aprobación manual.
+Los builds históricos #2 a #7 de EC2 se ejecutaron **antes** de esta modificación y no prueban la aprobación manual. La [evidencia nueva de la VM](evidence/approval-gate-vm-2026-10-26/README.md) registra aprobación en #8 y rechazo en #9. Falta ensayar el vencimiento y, si la cátedra exige paridad de entornos, repetir estos casos en Jenkins local.
 
-| Caso | Acción | Evidencia esperada |
+| Caso | Acción | Estado y evidencia |
 | --- | --- | --- |
-| Aprobación | Iniciar `happy`, anotar `/version`, aprobar con la cuenta permitida. | `CAMBIO_APROBADO` muestra ID, versión y fecha; `switch-color` aparece después; `/version` cambia al commit candidato. |
-| Rechazo | Iniciar otro `happy` y elegir **Abortar**. | `CAMBIO_NO_APROBADO`; no hay `switch-color`; `/version` público conserva el color y commit anteriores. |
-| Vencimiento | Iniciar `happy` y no responder durante 10 minutos. | Jenkins termina por timeout, registra `CAMBIO_NO_APROBADO` y `/version` público no cambia. |
+| Aprobación | Iniciar `happy`, anotar `/version`, aprobar con la cuenta permitida. | **Confirmado en #8:** `CAMBIO_APROBADO` muestra ID, versión y fecha; después aparece `Switch OK: green -> blue`. Falta una lectura externa de `/version` para esta corrida. |
+| Rechazo | Iniciar otro `happy` y elegir **Abortar**. | **Confirmado en #9:** `CAMBIO_NO_APROBADO`, etapa de switch omitida, `ABORTED`; `/version` externo mantuvo Blue `ci-8-bfed65942a82`. |
+| Vencimiento | Iniciar `happy` y no responder durante 10 minutos. | **Pendiente:** Jenkins debe terminar por timeout, registrar `CAMBIO_NO_APROBADO` y dejar `/version` público sin cambios. |
 
 Registrar para cada caso el número de build, commit, salida de `/version` antes y después, y las líneas de autorización y resultado del Console Output. El ensayo `post-deploy` también requiere aprobación antes de inducir la falla y observar el rollback. Un resultado `ABORTED` en rechazo o timeout es esperado; no equivale a una falla de la aplicación.
