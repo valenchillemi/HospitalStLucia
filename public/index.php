@@ -53,72 +53,40 @@ function e(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
-$statusClasses = [
-    'CONFIRMADO' => 'ok',
-    'PENDIENTE' => 'wait',
-    'REPROGRAMADO' => 'changed',
-];
+$statusClasses = ['CONFIRMADO' => 'confirmed', 'PENDIENTE' => 'pending', 'REPROGRAMADO' => 'changed'];
+$months = ['01'=>'ene', '02'=>'feb', '03'=>'mar', '04'=>'abr', '05'=>'may', '06'=>'jun',
+           '07'=>'jul', '08'=>'ago', '09'=>'sep', '10'=>'oct', '11'=>'nov', '12'=>'dic'];
 ?>
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Clínica Santa Lucía — Mis turnos</title>
-    <link rel="stylesheet" href="/assets/legacy.css">
+    <title>Mis turnos · Clínica Santa Lucía</title>
+    <link rel="stylesheet" href="/assets/turnos-v2.css">
 </head>
 <body>
-    <div class="demo-banner">ENTORNO DE DEMOSTRACIÓN — TODOS LOS DATOS SON FICTICIOS</div>
-    <header class="header">
-        <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <div class="brand"><strong>CLÍNICA SANTA LUCÍA</strong><span>Sistema Integrado de Atención</span></div>
-        <div class="user">Bienvenido/a, Paciente Demo<br><a href="#">Ayuda</a> · <a href="#">Salir</a></div>
-    </header>
-    <div class="layout">
-        <nav class="nav" aria-label="Módulos principales">
-            <h2>Menú principal</h2>
-            <a href="#">Inicio</a>
-            <a class="active" href="/turnos">Turnos ›</a>
-            <a class="sub active-sub" href="/turnos">Mis próximos turnos</a>
-            <span>Estudios <small>próximamente</small></span>
-            <span>Historia clínica <small>próximamente</small></span>
-            <span>Medicamentos <small>próximamente</small></span>
-            <span>Cartilla médica <small>próximamente</small></span>
-            <span>Facturación <small>próximamente</small></span>
-        </nav>
-        <main>
-            <div class="breadcrumb">Inicio &gt; Gestión de turnos &gt; Mis próximos turnos</div>
-            <h1>Mis próximos turnos</h1>
-            <p class="subtitle">Consulte aquí las citas programadas en las distintas sedes de la Clínica.</p>
-            <div class="notice"><strong>Importante:</strong> Preséntese 15 minutos antes con documento y credencial.</div>
-            <section class="filters">
-                <h2>Criterios de búsqueda</h2>
-                <div>
-                    <label>Desde <input value="20/10/2026" readonly></label>
-                    <label>Hasta <input value="31/12/2026" readonly></label>
-                    <label>Especialidad <select><option>Todas</option></select></label>
-                    <button type="button">BUSCAR</button>
-                </div>
-            </section>
-            <p class="summary"><strong>Turnos encontrados: <?= count($turnos) ?></strong><span>Última actualización: 20/10/2026 18:42</span></p>
-            <table>
-                <thead><tr><th>Fecha</th><th>Hora</th><th>Especialidad / Estudio</th><th>Profesional</th><th>Sede</th><th>Estado</th><th>Acción</th></tr></thead>
-                <tbody>
-                <?php foreach ($turnos as $turno): ?>
-                    <tr>
-                        <td><?= e($turno['fecha']) ?></td>
-                        <td><?= e($turno['hora']) ?></td>
-                        <td><strong><?= e($turno['especialidad']) ?></strong></td>
-                        <td><?= e($turno['profesional']) ?></td>
-                        <td><?= e($turno['sede']) ?></td>
-                        <td><span class="status <?= $statusClasses[$turno['estado']] ?? '' ?>"><?= e($turno['estado']) ?></span></td>
-                        <td><a href="#">Ver detalle</a></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </main>
+<header><div class="wrap mast"><a class="brand" href="/turnos"><b aria-hidden="true">✚</b> Clínica Santa Lucía</a><span>Portal del paciente</span></div></header>
+<main class="wrap">
+    <h1>Mis turnos</h1>
+    <p class="intro">Consultá el horario, la sede y el estado de tus citas.</p>
+    <div class="agenda">
+    <?php foreach ($turnos as $i => $turno):
+        [$day, $month, $year] = explode('/', $turno['fecha']);
+    ?>
+        <article class="<?= $i === 0 ? 'featured' : 'card' ?>">
+            <div class="topline"><span><?= $i === 0 ? 'Primer turno de la agenda' : e($turno['id']) ?></span>
+            <span class="status <?= $statusClasses[$turno['estado']] ?? '' ?>"><?= e(ucfirst(strtolower($turno['estado']))) ?></span></div>
+            <h2><?= e($turno['especialidad']) ?></h2>
+            <p class="professional"><?= e($turno['profesional']) ?></p>
+            <div class="when"><time datetime="<?= e("$year-$month-$day") ?>"><?= e($day . ' ' . ($months[$month] ?? $month) . ' ' . $year) ?></time><span><?= e($turno['hora']) ?> h</span></div>
+            <p class="place"><?= e($turno['sede']) ?></p>
+            <details><summary>Datos del turno</summary><p>Identificador: <?= e($turno['id']) ?><br>Presentate 15 minutos antes con documento y credencial.</p></details>
+        </article>
+    <?php endforeach; ?>
+    <?php if (!$turnos): ?><p>No hay turnos registrados.</p><?php endif; ?>
     </div>
-    <footer><span>Mesa de ayuda: 0800-000-0000</span><span><b>Sistema HSL v<?= e($version) ?></b> · Entorno <?= e($color) ?> · <strong>DEMO</strong></span></footer>
+</main>
+<footer class="wrap"><span>Demostración con datos ficticios</span><span>Versión <?= e($version) ?> · Entorno <?= e($color) ?></span></footer>
 </body>
 </html>
