@@ -1,0 +1,37 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #173d42; background: #f5f8f6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.wrap { width: min(100% - 40px, 1000px); margin-inline: auto; }
+header { background: white; border-bottom: 1px solid #cadbd4; }
+.mast, footer, .topline, .when { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mast { min-height: 78px; color: #426260; font-size: .9rem; }
+.brand { display: inline-flex; align-items: center; gap: 12px; color: #133f42; text-decoration: none; font-weight: 700; font-size: 1.15rem; }
+.brand b { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: #085954; color: white; }
+main { padding-block: clamp(32px, 5vw, 62px); }
+h1, h2, p { margin: 0; }
+h1 { font: 500 clamp(2.8rem, 7vw, 4.6rem)/1.1 Georgia, serif; letter-spacing: -.055em; }
+.intro { margin-block: 10px 32px; color: #456561; }
+.agenda { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+article { padding: clamp(20px, 3vw, 34px); border-radius: 18px; border: 1px solid #d1dfd9; background: white; }
+.featured { grid-column: 1 / -1; background: linear-gradient(115deg, #104445, #14635c); color: white; border-color: transparent; }
+.topline { font-size: .85rem; font-weight: 600; flex-wrap: wrap; }
+.status { padding: 5px 12px; border-radius: 20px; background: #e9efee; color: #23413d; }
+.confirmed { background: #cef0dc; color: #164d35; }
+.pending { background: #ffedc4; color: #67440b; }
+.changed { background: #e9e5ff; color: #4d3672; }
+h2 { margin-top: 24px; font-size: clamp(1.4rem, 3vw, 1.85rem); line-height: 1.15; }
+.featured h2 { font: 500 clamp(2.3rem, 5vw, 3.4rem)/1.1 Georgia, serif; margin-top: 18px; }
+.professional { margin-top: 6px; }
+.when { margin-top: 20px; justify-content: flex-start; font-weight: 650; }
+.when span { border-left: 1px solid currentColor; padding-left: 12px; }
+.place { margin-top: 4px; }
+details { margin-top: 18px; border-top: 1px solid #ccdad6; padding-top: 12px; }
+.featured details { border-color: #67918a; }
+summary { cursor: pointer; font-weight: 600; width: fit-content; }
+details p { padding-top: 10px; line-height: 1.6; }
+footer { flex-wrap: wrap; border-top: 1px solid #ccdad6; padding-block: 20px; color: #426260; font-size: .85rem; overflow-wrap: anywhere; }
+@media (max-width: 620px) {
+    .agenda { grid-template-columns: 1fr; }
+    .mast { min-height: 68px; flex-wrap: wrap; padding-block: 12px; }
+    .mast > span { font-size: .8rem; }
+}
