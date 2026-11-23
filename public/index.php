@@ -66,6 +66,7 @@ $statusClasses = [
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Clínica Santa Lucía — Mis turnos</title>
     <link rel="stylesheet" href="/assets/legacy.css">
+    <link rel="stylesheet" href="/assets/turnos-v2.css?v=integrada">
 </head>
 <body>
     <div class="demo-banner">ENTORNO DE DEMOSTRACIÓN — TODOS LOS DATOS SON FICTICIOS</div>
@@ -101,22 +102,25 @@ $statusClasses = [
                 </div>
             </section>
             <p class="summary"><strong>Turnos encontrados: <?= count($turnos) ?></strong><span>Última actualización: 20/10/2026 18:42</span></p>
-            <table>
-                <thead><tr><th>Fecha</th><th>Hora</th><th>Especialidad / Estudio</th><th>Profesional</th><th>Sede</th><th>Estado</th><th>Acción</th></tr></thead>
-                <tbody>
+            <section class="turnos-agenda" aria-label="Agenda de turnos">
                 <?php foreach ($turnos as $turno): ?>
-                    <tr>
-                        <td><?= e($turno['fecha']) ?></td>
-                        <td><?= e($turno['hora']) ?></td>
-                        <td><strong><?= e($turno['especialidad']) ?></strong></td>
-                        <td><?= e($turno['profesional']) ?></td>
-                        <td><?= e($turno['sede']) ?></td>
-                        <td><span class="status <?= $statusClasses[$turno['estado']] ?? '' ?>"><?= e($turno['estado']) ?></span></td>
-                        <td><a href="#">Ver detalle</a></td>
-                    </tr>
+                    <article class="turno-card">
+                        <div class="turno-card-heading">
+                            <h2><?= e($turno['especialidad']) ?></h2>
+                            <span class="status <?= $statusClasses[$turno['estado']] ?? '' ?>"><?= e($turno['estado']) ?></span>
+                        </div>
+                        <p class="turno-card-time"><?= e($turno['fecha']) ?> · <?= e($turno['hora']) ?> h</p>
+                        <p class="turno-card-location"><?= e($turno['profesional']) ?> · <?= e($turno['sede']) ?></p>
+                        <details>
+                            <summary>Ver detalle</summary>
+                            <p>Número de turno: <?= e($turno['id']) ?></p>
+                        </details>
+                    </article>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
+                <?php if (!$turnos): ?>
+                    <p>No hay turnos registrados.</p>
+                <?php endif; ?>
+            </section>
         </main>
     </div>
     <footer><span>Mesa de ayuda: 0800-000-0000</span><span><b>Sistema HSL v<?= e($version) ?></b> · Entorno <?= e($color) ?> · <strong>DEMO</strong></span></footer>
